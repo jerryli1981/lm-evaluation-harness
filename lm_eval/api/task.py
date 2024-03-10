@@ -868,9 +868,44 @@ class ConfigurableTask(Task):
                     )
 
     def download(self, dataset_kwargs: Optional[Dict[str, Any]] = None) -> None:
+        print(self.DATASET_NAME)
+        dataset_kwargs = {}
+        if "cmmlu" in self.DATASET_PATH:
+            dataset_kwargs['data_files'] = {
+                'dev': self.DATASET_PATH+"/"+self.DATASET_NAME+"/1.0.1/efcc940752ea4a1ea94d2727f11f83858d64fc8e/cmmlu-dev.arrow",
+                'test': self.DATASET_PATH + "/" + self.DATASET_NAME + "/1.0.1/efcc940752ea4a1ea94d2727f11f83858d64fc8e/cmmlu-test.arrow",
+            }
+        elif "ceval" in self.DATASET_PATH:
+            dataset_kwargs['data_files'] = {
+                'val': self.DATASET_PATH+"/"+self.DATASET_NAME+"/1.0.0/3923b519fd180e689d0961bf3a032ece929742f3/ceval-exam-val.arrow",
+                'dev': self.DATASET_PATH + "/" + self.DATASET_NAME + "/1.0.0/3923b519fd180e689d0961bf3a032ece929742f3/ceval-exam-val.arrow"
+            }
+        elif "hellaswag" in self.DATASET_PATH:
+            dataset_kwargs['data_files'] = {
+                'train': self.DATASET_PATH +"/default/0.1.0/512a66dd8b1b1643ab4a48aa4f150d04c91680da6a4096498a5e5f799623d5ae/hellaswag-train.arrow",
+                'validation': self.DATASET_PATH + "/default/0.1.0/512a66dd8b1b1643ab4a48aa4f150d04c91680da6a4096498a5e5f799623d5ae/hellaswag-validation.arrow"
+            }
+        elif "mmlu" in self.DATASET_PATH:
+            dataset_kwargs['data_files'] = {
+                'dev': self.DATASET_PATH + "/" + self.DATASET_NAME + "/1.0.0/b7d5f7f21003c21be079f11495ee011332b980bd1cd7e70cc740e8c079e5bda2/mmlu_no_train-validation.arrow",
+                'test': self.DATASET_PATH + "/" + self.DATASET_NAME + "/1.0.0/b7d5f7f21003c21be079f11495ee011332b980bd1cd7e70cc740e8c079e5bda2/mmlu_no_train-test.arrow"
+            }
+        elif "mathqa" in self.DATASET_PATH:
+            dataset_kwargs['data_files'] = {
+                'train': self.DATASET_PATH +"/default/0.1.0/c4f1cc784c04c4957b50c97858f23893b633eea6/math_qa-train.arrow",
+                'validation': self.DATASET_PATH + "/default/0.1.0/c4f1cc784c04c4957b50c97858f23893b633eea6/math_qa-validation.arrow",
+                'test': self.DATASET_PATH + "/default/0.1.0/c4f1cc784c04c4957b50c97858f23893b633eea6/math_qa-test.arrow"
+            }
+        elif "gsm8k" in self.DATASET_PATH:
+            dataset_kwargs['data_files'] = {
+                'train': self.DATASET_PATH +"/main/0.0.0/e53f048856ff4f594e959d75785d2c2d37b678ee/gsm8k-train.arrow",
+                'test': self.DATASET_PATH +"/main/0.0.0/e53f048856ff4f594e959d75785d2c2d37b678ee/gsm8k-test.arrow"
+            }
+        else:
+            raise ValueError("Only Support cmmlu, ceval-valid, hellaswag, mmlu and mathqa datasets")
+
         self.dataset = datasets.load_dataset(
-            path=self.DATASET_PATH,
-            name=self.DATASET_NAME,
+            "arrow",
             **dataset_kwargs if dataset_kwargs is not None else {},
         )
 

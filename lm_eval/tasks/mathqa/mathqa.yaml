@@ -1,7 +1,7 @@
 group:
   - math_word_problems
 task: mathqa
-dataset_path: math_qa
+dataset_path: /workspace/mathqa
 output_type: multiple_choice
 training_split: train
 validation_split: validation

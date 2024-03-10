@@ -261,8 +261,8 @@ def simple_evaluate(
             "bootstrap_iters": bootstrap_iters,
             "gen_kwargs": gen_kwargs,
         }
-        results["git_hash"] = get_git_commit_hash()
-        add_env_info(results)  # additional environment info to results
+        #results["git_hash"] = get_git_commit_hash()
+        #add_env_info(results)  # additional environment info to results
         return results
     else:
         return None
